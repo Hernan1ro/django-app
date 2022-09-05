@@ -1,14 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 # Create your views here.
 
+from .models import Question
 
 def index(request):
-    return HttpResponse("Estás en la página principal de premios platiz app")
+    latest_question_list = Question.objects.all()
+    return render(request, "polls/index.html", {'latest_question_list': latest_question_list})
 
 
 def detail(request, question_id):
-    return HttpResponse(f"Estás viend la pregunta número {question_id}")
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, "polls/detail.html", {'question': question})
 
 
 def results(request, question_id):
